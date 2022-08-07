@@ -13,6 +13,7 @@
     ],
     "browser_specific_settings": {
         "gecko": {
+            "id": "{4420f525-f476-4692-aacc-62376ffcf9b8}",
             "update_url": "https://raw.githubusercontent.com/myhilmyhill/Close-Bookmarked-Tabs/master/updates.json"
         }
     }
