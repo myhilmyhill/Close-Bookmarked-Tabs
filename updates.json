@@ -5,7 +5,11 @@
                 {
                     "version": "0.0",
                     "update_link": "https://github.com/myhilmyhill/Close-Bookmarked-Tabs/releases/download/0.0/Close-Bookmarked-Tabs.xpi"
-                }
+                },
+                {
+                    "version": "0.0b",
+                    "update_link": "https://github.com/myhilmyhill/Close-Bookmarked-Tabs/releases/download/0.0b/Close-Bookmarked-Tabs.xpi"
+                },
             ]
         }
     }
