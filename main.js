@@ -4,6 +4,12 @@ import { getTabs, closeTab } from './tabs.js'
 /** @typedef {import('./firefox').tabs.Tab} tabs.Tab */
 /** @typedef {import('./types').Bookmark} Bookmark */
 
+/** @type {import('./firefox').Browser} */
+const browser = window['browser'];
+if (browser == null) {
+    throw Error("`browser` is not defined")
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
     await main(undefined);
 });
@@ -22,8 +28,8 @@ async function main(bookmarkFolderId) {
     closeButton.disabled = true;
     removeChilds(elementTabs);
 
-    const allTabs = await getTabs();
-    const targetBookmarks = await getBookmarks(bookmarkFolderId);
+    const allTabs = await getTabs(browser);
+    const targetBookmarks = await getBookmarks(browser, bookmarkFolderId);
     const toCloseTabs = getToCloseBookmarkedTabs(allTabs, targetBookmarks);
 
     /** @type {[HTMLElement, HTMLElement, HTMLElement, HTMLElement]} */
@@ -92,7 +98,7 @@ function getToCloseBookmarkedTabs(
  * @param {tabs.Tab[]} toCloseTabs 
  */
 async function closeBookmarkedTabs(toCloseTabs) {
-    await closeTab(toCloseTabs.map(tab => tab.id));
+    await closeTab(browser, toCloseTabs.map(tab => tab.id));
 }
 
 /**
@@ -102,7 +108,7 @@ async function closeBookmarkedTabs(toCloseTabs) {
  */
 function addListItem(content, marked, to) {
     const elem = document.createElement("li");
-    elem.textContent = content || String(content);
+    elem.textContent = content ?? String(content);
     if (marked) elem.style.color = "red";
     to.appendChild(elem);
 }
