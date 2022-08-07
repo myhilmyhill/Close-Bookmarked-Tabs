@@ -10,5 +10,10 @@
     "permissions": [
         "tabs",
         "bookmarks"
-    ]
+    ],
+    "browser_specific_settings": {
+        "gecko": {
+            "update_url": "https://raw.githubusercontent.com/myhilmyhill/Close-Bookmarked-Tabs/master/updates.json"
+        }
+    }
 }
