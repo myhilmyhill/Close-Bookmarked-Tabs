@@ -1,0 +1,12 @@
+{
+    "addons": {
+        "{4420f525-f476-4692-aacc-62376ffcf9b8}": {
+            "updates": [
+                {
+                    "version": "0.0",
+                    "update_link": "https://github.com/myhilmyhill/Close-Bookmarked-Tabs/releases/download/0.0/Close-Bookmarked-Tabs.xpi"
+                }
+            ]
+        }
+    }
+}
