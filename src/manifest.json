@@ -6,7 +6,7 @@
     },
     "manifest_version": 2,
     "name": "Close Bookmarked Tabs",
-    "version": "0.0b",
+    "version": "0.0c",
     "permissions": [
         "tabs",
         "bookmarks"
