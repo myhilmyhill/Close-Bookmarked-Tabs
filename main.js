@@ -1,19 +1,24 @@
 // @ts-check
 import { getBookmarks } from './bookmarks.js'
 import { getTabs, closeTab } from './tabs.js'
+/** @typedef {import('./firefox').tabs.Tab} tabs.Tab */
+/** @typedef {import('./types').Bookmark} Bookmark */
 
 document.addEventListener("DOMContentLoaded", async () => {
     await main(undefined);
 });
 
 /**
- * @param {string} bookmarkFolderId
+ * @param {string | undefined} bookmarkFolderId
  * @returns {Promise<void>}
  */
 async function main(bookmarkFolderId) {
-    const closeButton = document.getElementById("close");
-    const elementTabs = document.getElementById("tabs");
+    /** @type {HTMLButtonElement} */
     // @ts-ignore
+    const closeButton = document.getElementById("close");
+    /** @type {HTMLButtonElement} */
+    // @ts-ignore
+    const elementTabs = document.getElementById("tabs");
     closeButton.disabled = true;
     removeChilds(elementTabs);
 
@@ -21,13 +26,18 @@ async function main(bookmarkFolderId) {
     const targetBookmarks = await getBookmarks(bookmarkFolderId);
     const toCloseTabs = getToCloseBookmarkedTabs(allTabs, targetBookmarks);
 
+    /** @type {[HTMLElement, HTMLElement, HTMLElement, HTMLElement]} */
     // @ts-ignore
-    document.getElementById("numtoclose").textContent = toCloseTabs.length;
-    document.getElementById("countable").textContent = toCloseTabs.length == 1
+    const [numToClose, countable, showToClose, showAll] = [
+        "numtoclose", "countable", "showtoclose", "showall"
+    ]
+        .map(eId => document.getElementById(eId));
+    numToClose.textContent = String(toCloseTabs.length);
+    countable.textContent = toCloseTabs.length == 1
         ? "tab"
         : "tabs";
 
-    document.getElementById("showtoclose").onclick = () => {
+    const show = showToClose.onclick = () => {
         removeChilds(elementTabs);
         for (const tab of toCloseTabs) {
             addListItem(
@@ -36,10 +46,9 @@ async function main(bookmarkFolderId) {
                 elementTabs);
         }
     };
-    // @ts-ignore
-    document.getElementById("showtoclose").onclick();
+    show();
 
-    document.getElementById("showall").onclick = () => {
+    showAll.onclick = () => {
         removeChilds(elementTabs);
         for (const tab of allTabs) {
             addListItem(
@@ -51,7 +60,6 @@ async function main(bookmarkFolderId) {
 
     // Close button
     if (toCloseTabs.length > 0) {
-        // @ts-ignore
         closeButton.disabled = false;
         closeButton.onclick = async () => {
             await closeBookmarkedTabs(toCloseTabs);
@@ -88,13 +96,13 @@ async function closeBookmarkedTabs(toCloseTabs) {
 }
 
 /**
- * @param {string} content
+ * @param {string | any} content
  * @param {boolean} marked
  * @param {HTMLElement} to
  */
 function addListItem(content, marked, to) {
     const elem = document.createElement("li");
-    elem.textContent = content;
+    elem.textContent = content || String(content);
     if (marked) elem.style.color = "red";
     to.appendChild(elem);
 }
